@@ -7,10 +7,23 @@ import DonutChart from "../components/charts/DonutChart";
 import TreeMapChart from "../components/charts/TreeMapChart";
 import DualLineChart from "../components/charts/DualLineChart";
 import DataTable from "../components/common/DataTable";
-import { useEffect, useState } from "react";
-import { getFinopsData } from "../services/finopsService";
 
-// ─── static data (move to finopsService later) ───────────────────────────────
+// ─── KPI data (was in finopsService.js) ───────────────────────────────────────
+const kpis = {
+  totalCost:      127845,
+  subscriptions:  12,
+  resourceGroups: 48,
+  resources:      1247,
+  savings:        18234,
+};
+
+// ─── Chart data ────────────────────────────────────────────────────────────────
+const trendData = [
+  { name: "P01", value: 22000 },
+  { name: "P02", value: 27000 },
+  { name: "P03", value: 13000 },
+  { name: "P04", value: 33000 },
+];
 
 const subscriptionData = [
   { name: "Pn-Dev-Sub",  value: 32000 },
@@ -25,10 +38,10 @@ const envData = [
 ];
 
 const serviceData = [
-  { name: "Databricks",       value: 3000 },
-  { name: "Virtual Machine",  value: 3000 },
-  { name: "App Service",      value: 3000 },
-  { name: "Storage Account",  value: 3000 },
+  { name: "Databricks",      value: 3000 },
+  { name: "Virtual Machine", value: 3000 },
+  { name: "App Service",     value: 3000 },
+  { name: "Storage Account", value: 3000 },
 ];
 
 const resourceGroupData = [
@@ -48,13 +61,12 @@ const amortizedData = [
   { name: "P05", total: 23000, amortized: 34000 },
 ];
 
-// DualLineChart lines config
 const amortizedLines = [
   { dataKey: "total",     color: "#22c55e", label: "Total Cost" },
   { dataKey: "amortized", color: "#6900e0", label: "Amortized"  },
 ];
 
-// DataTable column definitions
+// ─── Table ─────────────────────────────────────────────────────────────────────
 const TABLE_COLUMNS = [
   { key: "subscription",  label: "Subscription"   },
   { key: "service",       label: "Service Name"   },
@@ -87,19 +99,8 @@ const tableData = Array(20).fill({
   totalCost:     "$225.29",
 });
 
-// ─── page ─────────────────────────────────────────────────────────────────────
-
+// ─── Page ──────────────────────────────────────────────────────────────────────
 export default function FinOps() {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    getFinopsData().then(setData);
-  }, []);
-
-  if (!data) {
-    return <div className="p-4 text-xs text-gray-500">Loading...</div>;
-  }
-
   return (
     <div className="w-full px-4 lg:px-6 xl:px-8">
 
@@ -121,24 +122,21 @@ export default function FinOps() {
 
       {/* KPIs */}
       <div className="grid grid-cols-5 gap-2">
-        <KPIcard title="Total Cost"           value={`$${data.kpis.totalCost.toLocaleString()}`}  subtitle="8.5% vs last month" trend="down" />
-        <KPIcard title="Total Subscriptions"  value={data.kpis.subscriptions} />
-        <KPIcard title="Resource Groups"      value={data.kpis.resourceGroups} />
-        <KPIcard title="Total Resources"      value={data.kpis.resources.toLocaleString()} />
-        <KPIcard title="Estimated Savings →"  value={`$${data.kpis.savings.toLocaleString()}`}    subtitle="8.5% vs last month" trend="up" />
+        <KPIcard title="Total Cost"          value={`$${kpis.totalCost.toLocaleString()}`} subtitle="8.5% vs last month" trend="down" />
+        <KPIcard title="Total Subscriptions" value={kpis.subscriptions} />
+        <KPIcard title="Resource Groups"     value={kpis.resourceGroups} />
+        <KPIcard title="Total Resources"     value={kpis.resources.toLocaleString()} />
+        <KPIcard title="Estimated Savings →" value={`$${kpis.savings.toLocaleString()}`}  subtitle="8.5% vs last month" trend="up" />
       </div>
 
       {/* Trend + Insights */}
       <div className="grid grid-cols-3 gap-2 mt-3 items-stretch">
-
-        {/* Trend card: flex-col so chart fills remaining height */}
         <div className="col-span-2 bg-white rounded-[4px] border border-[#BC9BEC] shadow-[1px_1px_24px_rgba(12,12,12,0.08)] p-3 flex flex-col gap-2">
           <h3 className="text-[13px] font-semibold flex-shrink-0">Periodic Trend Analysis</h3>
           <div className="flex-1 min-h-0">
-            <TrendChart data={data.trend} />
+            <TrendChart data={trendData} />
           </div>
         </div>
-
         <Insights />
       </div>
 
@@ -151,8 +149,8 @@ export default function FinOps() {
 
       {/* TreeMap + DualLine */}
       <div className="grid grid-cols-2 gap-2 mt-3">
-        <TreeMapChart  title="Spent by Resource Group"  data={resourceGroupData} />
-        <DualLineChart title="Amortized vs Total Cost"  data={amortizedData} lines={amortizedLines} />
+        <TreeMapChart  title="Spent by Resource Group" data={resourceGroupData} />
+        <DualLineChart title="Amortized vs Total Cost" data={amortizedData} lines={amortizedLines} />
       </div>
 
       {/* Table */}
