@@ -1,69 +1,66 @@
 import { Treemap, ResponsiveContainer } from "recharts";
 
-const COLORS = [
-  "#3b008f",
-  "#4f00b8",
-  "#6900e0",
-  "#8c3cff",
-  "#c7a6ff",
-];
+const DEFAULT_COLORS = ["#3b008f", "#4f00b8", "#6900e0", "#8c3cff", "#c7a6ff"];
 
-const CustomContent = ({ x, y, width, height, index, name, value }) => {
-  return (
+const makeContent = (colors) => {
+  const Content = ({ x, y, width, height, index, name, value }) => (
     <g>
       <rect
         x={x}
         y={y}
         width={width}
         height={height}
-        fill={COLORS[index % COLORS.length]}
+        fill={colors[index % colors.length]}
         stroke="#fff"
+        strokeWidth={2}
       />
-
       {width > 80 && height > 40 && (
         <>
-          {/* NAME */}
-          <text
-            x={x + 8}
-            y={y + 18}
-            fill="#fff"
-            fontSize={11}
-            fontWeight={400}
-          >
+          <text x={x + 8} y={y + 18} fill="#fff" fontSize={11} fontWeight={400}>
             {name}
           </text>
-
-          {/* VALUE */}
-          <text
-            x={x + 8}
-            y={y + height - 10}
-            fill="#fff"
-            fontSize={11}
-            fontWeight={300}
-          >
+          <text x={x + 8} y={y + height - 10} fill="#fff" fontSize={11} fontWeight={300}>
             ${(value / 1000).toFixed(2)}k
           </text>
         </>
       )}
     </g>
   );
+  Content.displayName = "TreeMapContent";
+  return Content;
 };
 
-export default function TreeMapChart({ data }) {
+/**
+ * TreeMapChart — reusable treemap
+ *
+ * Props:
+ *   title     {string}  required
+ *   data      {Array}   required — [{ name, value }]
+ *   dataKey   {string}  default "value"
+ *   colors    {Array}   default purple palette
+ *   height    {number}  default 190 — chart area height in px
+ *   className {string}  extra wrapper classes
+ */
+export default function TreeMapChart({
+  title,
+  data,
+  dataKey = "value",
+  colors = DEFAULT_COLORS,
+  height = 190,
+  className = "",
+}) {
+  const CustomContent = makeContent(colors);
+
   return (
-    <div className="bg-white rounded-[4px] border border-[#BC9BEC] shadow-[1px_1px_24px_rgba(12,12,12,0.08)] w-full max-w-[564px] h-[248px] p-[12px] flex flex-col gap-[12px]">
+    <div className={`bg-white rounded-[4px] border border-[#BC9BEC] shadow-[1px_1px_24px_rgba(12,12,12,0.08)] w-full p-3 flex flex-col gap-2 ${className}`}>
 
-      {/* TITLE */}
-      <h3 className="text-[14px] font-semibold">
-        Spent by Resource Group
-      </h3>
+      <h3 className="text-[13px] font-semibold">{title}</h3>
 
-      {/* CHART */}
-      <div className="w-full flex-1 min-h-0">
+      <div style={{ height }}>
         <ResponsiveContainer width="100%" height="100%">
           <Treemap
             data={data}
-            dataKey="value"
+            dataKey={dataKey}
             stroke="#fff"
             content={<CustomContent />}
           />
