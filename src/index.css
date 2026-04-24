@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+}
+
+/* Degular Font Faces */
+@font-face {
+  font-family: 'Degular';
+  src: url('./assets/fonts/Degular-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Degular';
+  src: url('./assets/fonts/Degular-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Degular';
+  src: url('./assets/fonts/Degular-Semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Apply globally */
+body {
+  font-family: 'Degular', sans-serif;
+}
