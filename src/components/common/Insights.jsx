@@ -21,7 +21,7 @@ export default function Insights({
   className = "",
 }) {
   return (
-    <div className={`bg-[#F3EFF9] rounded-[4px] w-full p-3 flex flex-col gap-2 ${className}`}>
+      <div className={`bg-[#F3EFF9] rounded-[4px] w-full p-3 flex flex-col gap-2 ${className}`}>
 
       <div className="flex items-center gap-1.5">
         <span className="text-[#6900e0] text-[12px]">✨</span>
