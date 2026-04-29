@@ -1,4 +1,4 @@
-import { Treemap, ResponsiveContainer } from "recharts";
+import { Treemap, ResponsiveContainer, Tooltip } from "recharts";
 
 const DEFAULT_COLORS = ["#3b008f", "#4f00b8", "#6900e0", "#8c3cff", "#c7a6ff"];
 
@@ -30,16 +30,39 @@ const makeContent = (colors) => {
   return Content;
 };
 
+// Custom tooltip shown on hover
+function CustomTooltip({ active, payload }) {
+  if (!active || !payload?.length) return null;
+  const { name, value } = payload[0].payload;
+  return (
+    <div
+      style={{
+        background: "#fff",
+        border: "1px solid #e6e8f0",
+        borderRadius: 6,
+        padding: "6px 10px",
+        fontSize: 11,
+        color: "#374151",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+      }}
+    >
+      <p style={{ fontWeight: 600, marginBottom: 2 }}>{name}</p>
+      <p style={{ color: "#6900e0" }}>${(value / 1000).toFixed(2)}k</p>
+    </div>
+  );
+}
+
 /**
- * TreeMapChart — reusable treemap
+ * TreeMapChart — reusable treemap with hover tooltip
  *
  * Props:
- *   title     {string}  required
- *   data      {Array}   required — [{ name, value }]
- *   dataKey   {string}  default "value"
- *   colors    {Array}   default purple palette
- *   height    {number}  default 190 — chart area height in px
- *   className {string}  extra wrapper classes
+ *   title          {string}    required
+ *   data           {Array}     required — [{ name, value }]
+ *   dataKey        {string}    default "value"
+ *   colors         {Array}     default purple palette
+ *   height         {number}    default 190
+ *   valueFormatter {function}  optional — formats tooltip value, receives raw value
+ *   className      {string}    extra wrapper classes
  */
 export default function TreeMapChart({
   title,
@@ -47,6 +70,7 @@ export default function TreeMapChart({
   dataKey = "value",
   colors = DEFAULT_COLORS,
   height = 190,
+  valueFormatter,
   className = "",
 }) {
   const CustomContent = makeContent(colors);
@@ -63,7 +87,9 @@ export default function TreeMapChart({
             dataKey={dataKey}
             stroke="#fff"
             content={<CustomContent />}
-          />
+          >
+            <Tooltip content={<CustomTooltip valueFormatter={valueFormatter} />} />
+          </Treemap>
         </ResponsiveContainer>
       </div>
 

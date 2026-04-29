@@ -483,6 +483,7 @@ export default function Databricks() {
 
                 <div className="flex gap-2">
                     <FilterDropdown label="Change Period" />
+                    <FilterDropdown label="Cloud Type" />
                     <FilterDropdown label="Subscription" />
                     <FilterDropdown label="Resource Group" />
                     <FilterDropdown label="Resource Name" />

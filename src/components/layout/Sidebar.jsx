@@ -73,6 +73,7 @@ export default function Sidebar() {
               <MenuItem icon={<Server size={16} />}    label="Virtual Machines" path="/virtual-machines" active={location.pathname === "/virtual-machines"} navigate={navigate} />
               <MenuItem icon={<Box size={16} />}       label="App Services"     path="/app-services"     active={location.pathname === "/app-services"} navigate={navigate} />
               <MenuItem icon={<Database size={16} />}  label="SQL Database"     path="/sql-database"     active={location.pathname === "/sql-database"} navigate={navigate} />
+              <MenuItem icon={<Boxes size={16} />}     label="Others"           path="/others"           active={location.pathname === "/others"} navigate={navigate} />
             </div>
           </div>
         </div>
@@ -101,6 +102,7 @@ export default function Sidebar() {
               <MenuItem icon={<Cpu size={16} />}       label="ML Ops"           path="/ml-ops"           active={location.pathname === "/ml-ops"} navigate={navigate} />
               <MenuItem icon={<GitBranch size={16} />} label="Dev Ops"          path="/dev-ops"          active={location.pathname === "/dev-ops"} navigate={navigate} />
               <MenuItem icon={<Database size={16} />}  label="Orphan Table"     path="/orphan-table"     active={location.pathname === "/orphan-table"} navigate={navigate} />
+              <MenuItem icon={<GitBranch size={16} />} label="Data Lineage"     path="/data-lineage"     active={location.pathname === "/data-lineage"} navigate={navigate} />
             </div>
           </div>
         </div>
