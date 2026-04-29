@@ -136,6 +136,7 @@ export default function Storage() {
                         title="File Count by Access Frequency"
                         data={accessFrequencyData}
                         colors={ACCESS_COLORS}
+                        legendCols={2}
                     />
                 </div>
             </div>

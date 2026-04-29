@@ -1,7 +1,7 @@
 import KPIcard from "../components/common/KPIcard";
 import FilterDropdown from "../components/common/FilterDropdown";
-import DonutCountChart from "../components/charts/DonutCountChart";
-import StackedBarChart from "../components/charts/StackedBarChart";
+import DonutWithCenter from "../components/charts/DonutWithCenter";
+import StackedHorizontalBar from "../components/charts/StackedHorizontalBar";
 import DataTable from "../components/common/DataTable";
 
 /* ─── KPI Data ─── */
@@ -91,7 +91,7 @@ export default function VirtualMachine() {
         {/* Charts Row — col ratio 2:3:3 matches Figma 300:412:408px */}
         <div className="grid grid-cols-8 gap-3">
           <div className="col-span-2">
-            <DonutCountChart
+            <DonutWithCenter
               title="VM Status"
               data={vmStatusData}
               colors={["#6900e0", "#C4B5FD"]}
@@ -101,13 +101,13 @@ export default function VirtualMachine() {
             />
           </div>
           <div className="col-span-3">
-            <StackedBarChart
+            <StackedHorizontalBar
               title="VM Current Distribution based on the pricing model"
               segments={currentDistribution}
             />
           </div>
           <div className="col-span-3">
-            <StackedBarChart
+            <StackedHorizontalBar
               title="VM Recommended Distribution"
               segments={recommendedDistribution}
             />
