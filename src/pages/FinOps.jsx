@@ -67,6 +67,14 @@ const amortizedLines = [
   { dataKey: "amortized", color: "#6900e0", label: "Amortized" },
 ];
 
+// ─── Insights ─────────────────────────────────────────────────────────────────
+const insightItems = [
+  "Identify unused or low-utilization resources (VMs, storage, services) to reduce unnecessary costs.",
+  "Detect over-provisioned resources and recommend optimal configurations to improve cost efficiency.",
+  "Highlight services with the highest spend and suggest targeted actions to reduce usage or optimize configurations.",
+  "Identify resources running on on-demand pricing and suggest switching to reserved or cost-efficient pricing models.",
+];
+
 // ─── Table ─────────────────────────────────────────────────────────────────────
 const TABLE_COLUMNS = [
   { key: "subscription", label: "Subscription" },
@@ -139,7 +147,7 @@ export default function FinOps() {
             <TrendChart data={trendData} />
           </div>
         </div>
-        <Insights />
+        <Insights items={insightItems} />
       </div>
 
       {/* Bar charts + Donut */}
